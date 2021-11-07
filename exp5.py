@@ -1,28 +1,18 @@
 import numpy as np
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split,cross_val_score
-
-from sklearn.metrics import mean_squared_error
-
-houses=pd.read_csv('house_data.csv')
-houses.head()
-corr = houses.corr()
-sns.heatmap(corr)
-feature_cols = 'sqft_living' 
-x = houses[feature_cols]
-y = houses.price
-x_train, x_test, y_train, y_test = train_test_split( x, y,test_size=0.2) 
-linreg = LinearRegression()
-print(x_train,y_train)
-linreg.fit([x_train],[y_train])
-print(linreg.intercept_)
-print(linreg.coef_)
-
-linreg.predict(1000)
-mse = mean_squared_error(y_test, linreg.predict(x_test))
-np.sqrt(mse)
-linreg.score(x_test,y_test)
+import pandas as pd
+import matplotlib.pyplot as plt
+train=pd.read_csv("./california_housing_test.csv")
+pd.set_option('display.max_columns', None)
+bed=train.loc[:,'total_bedrooms']
+x=np.linspace(0,10,100)
+y=2+3*x + np.random.normal(-3, 3, 100)
+model = LinearRegression()
+x = x[:, np.newaxis]
+y = y[:, np.newaxis]
+model.fit(x, y)
+y_pred = model.predict(x)
+plt.scatter(x, y, s=10)
+plt.plot(x, y_pred, color='r')
+print(y_pred)
+plt.show()
